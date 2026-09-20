@@ -2,9 +2,6 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-// Inicializas Resend con tu clave de API (la guardas en .env.local)
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: Request) {
   try {
     const data = await request.json();
@@ -18,30 +15,50 @@ export async function POST(request: Request) {
       );
     }
 
-    // Envío del correo
-    await resend.emails.send({
-      from: 'MOVYCONTROL Web <onboarding@resend.dev>', // Correo emisor
-      to: ['admin@movycontrol.com'], // <-- ¡AQUÍ PONES EL CORREO DONDE MOVYCONTROL RECIBIRÁ LAS SOLICITUDES!
+    const apiKey = process.env.RESEND_API_KEY;
+
+    if (!apiKey) {
+      console.warn('⚠️ RESEND_API_KEY no encontrada.');
+      return NextResponse.json(
+        { error: 'Configuración de correo no encontrada en el servidor.' },
+        { status: 500 }
+      );
+    }
+
+    // Instanciar Resend DENTRO de la función POST
+    const resend = new Resend(apiKey);
+
+    const response = await resend.emails.send({
+      from: 'MOVYCONTROL Web <onboarding@resend.dev>',
+      to: ['admin@movycontrol.com'],
       subject: `Nueva Solicitud de Diagnóstico: ${equipo}`,
       html: `
-        <h2>Nueva Solicitud de Diagnóstico desde la Web</h2>
+        <h2>Nueva Solicitud de Diagnóstico</h2>
         <p><strong>Nombre:</strong> ${nombre}</p>
         <p><strong>Empresa / Planta:</strong> ${empresa || 'No especificada'}</p>
-        <p><strong>Teléfono / WhatsApp:</strong> ${telefono}</p>
+        <p><strong>Teléfono / WhatsApp para Respuesta:</strong> ${telefono}</p>
         <p><strong>Equipo y Marca:</strong> ${equipo}</p>
-        <p><strong>Descripción de la Falla:</strong></p>
+        <p><strong>Descripción del Problema:</strong></p>
         <p>${mensaje}</p>
       `,
     });
 
+    if (response.error) {
+      console.error('Error de Resend:', response.error);
+      return NextResponse.json(
+        { error: 'Error al enviar el correo.' },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
-      { message: 'Solicitud de diagnóstico enviada correctamente por correo.' },
+      { message: 'Solicitud enviada correctamente.' },
       { status: 200 }
     );
   } catch (error) {
-    console.error('Error enviando email:', error);
+    console.error('Error en API contacto:', error);
     return NextResponse.json(
-      { error: 'Error al enviar el mensaje. Intenta nuevamente.' },
+      { error: 'Error interno del servidor.' },
       { status: 500 }
     );
   }
