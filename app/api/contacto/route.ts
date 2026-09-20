@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     const resend = new Resend(apiKey);
 
     const response = await resend.emails.send({ 
-      from: 'MOVYCONTROL Web <onboarding@resend.dev>',
+      from: 'MOVYCONTROL Web <admin@movycontrol.com>',
       to: ['admin@movycontrol.com'],
       subject: `Nueva Solicitud de Diagnóstico: ${equipo}`,
       html: `
