@@ -18,7 +18,7 @@ export default function Navbar() {
           {/* Logo optimizado: responsivo en altura para no saturar móviles */}
           <div className="relative h-8 w-auto min-w-[140px] sm:min-w-[180px] md:h-11 md:w-56">
             <Image
-              src="/logo.png" // Asegúrate de que el archivo esté en /public/logo.png
+              src="/logo_navbar.png" // Asegúrate de que el archivo esté en /public/logo.png
               alt="MOVIMIENTO Y CONTROL — MOVYCONTROL"
               fill
               priority
