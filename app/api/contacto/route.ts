@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     // Instanciar Resend DENTRO de la función POST
     const resend = new Resend(apiKey);
 
-    const response = await resend.emails.send({
+    const response = await resend.emails.send({ 
       from: 'MOVYCONTROL Web <onboarding@resend.dev>',
       to: ['admin@movycontrol.com'],
       subject: `Nueva Solicitud de Diagnóstico: ${equipo}`,
