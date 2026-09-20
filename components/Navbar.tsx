@@ -1,4 +1,3 @@
-// components/Navbar.tsx
 'use client';
 
 import { useState } from 'react';
@@ -13,12 +12,10 @@ export default function Navbar() {
     <header className="bg-slate-900/95 backdrop-blur-md text-white sticky top-0 z-50 border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
         
-        {/* Brand / Logo */}
         <Link href="#inicio" className="flex items-center gap-2">
-          {/* Logo optimizado: responsivo en altura para no saturar móviles */}
           <div className="relative h-8 w-auto min-w-[140px] sm:min-w-[180px] md:h-11 md:w-56">
             <Image
-              src="/logo_navbar.png" // Asegúrate de que el archivo esté en /public/logo.png
+              src="/logo_navbar.png"
               alt="MOVIMIENTO Y CONTROL — MOVYCONTROL"
               fill
               priority
@@ -27,7 +24,6 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
           <Link href="#inicio" className="text-slate-300 hover:text-sky-400 transition-colors">
             Inicio
@@ -43,7 +39,6 @@ export default function Navbar() {
           </Link>
         </nav>
 
-        {/* Action CTA Desktop */}
         <div className="hidden md:block">
           <Link
             href="#contacto"
@@ -53,7 +48,6 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition"
@@ -63,7 +57,6 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu Drawer */}
       {isOpen && (
         <div className="md:hidden bg-slate-900 border-b border-slate-800 px-6 py-4 flex flex-col gap-4">
           <Link
